@@ -1,0 +1,15 @@
+{:paths ["src" "test" "resources"]
+ :deps  {
+         lambdaisland/data-printers {:mvn/version "0.0.22"}
+         }
+
+
+ :aliases
+ {:dev
+  {:extra-paths ["dev"]
+   :extra-deps  {thheller/shadow-cljs {:mvn/version "2.14.2"}}}
+
+  :test
+  {:extra-deps {
+                lambdaisland/kaocha      {:mvn/version "1.0.829"}
+                com.lambdaisland/kaocha-cljs {:mvn/version "1.0.93"}}}}}
