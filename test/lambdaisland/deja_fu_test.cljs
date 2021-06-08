@@ -5,7 +5,6 @@
             [clojure.test.check.properties :as prop :include-macros true]
             [clojure.test.check.clojure-test :refer [defspec]]
             [lambdaisland.deja-fu  :as t]
-            ;; [co.gaiwan.virtual-player.utils :as u]
             [goog.date.DateTime]
             [cljs-bean.core :refer [bean ->clj ->js]]))
 
@@ -58,7 +57,6 @@
                  s (gen/choose 0 60)]
                 (= (t/->LocalTime h m s nil)
                   (t/parse-local-time (str (t/->LocalTime h m s nil))) )))
-;; (t/->LocalDate)
 
 (defspec test-datetime->string->datetime 
   100
@@ -83,10 +81,6 @@
                      (t/parse-local-date (str d))))))
 
 #_(gen/sample (gen/choose 0 24))
-#_(t/parse-local-date-time (str (goog.date.DateTime. (js/Date. 2021 0 1 23 59 ))))
-#_(t/parse-local-date-time (str (goog.date.DateTime. (js/Date. 2000 1 1 0 0 0 ))))
-
-;; (defspec prop-)
 
 (deftest ^:kaocha/skip test-parse-invalid-local-time
   (testing "Verify invalid times are errors"
