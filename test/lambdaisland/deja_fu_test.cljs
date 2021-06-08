@@ -46,8 +46,12 @@
 
 (t/parse-local-time (str (t/->LocalTime 11 1 1 1e6)))
 
-(deftest ^:kaocha/pending roundtrip 
-  (let [time-example (t/->LocalTime 11 1 1 1e6)]
+(deftest roundtrip 
+  (let [time-example (t/->LocalTime 11 1 1 0 )]
+    (is (= time-example (t/parse-local-time (str time-example))))))
+
+(deftest roundtrip-nanos 
+  (let [time-example (t/->LocalTime 11 1 1 1e6 )]
     (is (= time-example (t/parse-local-time (str time-example))))))
 
 (defspec test-time->string->time 
