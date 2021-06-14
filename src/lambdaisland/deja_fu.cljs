@@ -129,8 +129,8 @@ not inside single quotes."))
   Format
   (format [obj]
     (if (and nanos (not= 0 nanos))
-      (format* obj "HH:mm:ss")
-      (format* obj "HH:mm:ss.SSSSSS")))
+      (format* obj "HH:mm:ss.SSSSSS")
+      (format* obj "HH:mm:ss")))
   (format [obj fmt]
     (format* obj fmt))
 
