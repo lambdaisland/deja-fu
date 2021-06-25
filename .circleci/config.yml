@@ -13,6 +13,7 @@ commands:
       - checkout
       - clojure/with_cache:
           steps:
+            - run: npm install ws
             - kaocha/execute:
                 args: "--reporter documentation"
                 clojure_version: << parameters.clojure_version >>
