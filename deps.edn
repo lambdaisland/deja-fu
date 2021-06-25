@@ -11,4 +11,5 @@
   {:extra-paths ["test"]
    :extra-deps { cljs-bean/cljs-bean        {:mvn/version "1.6.0"}
                 lambdaisland/kaocha      {:mvn/version "1.0.861"}
+                org.clojure/test.check        {:mvn/version "1.1.0"}
                 com.lambdaisland/kaocha-cljs {:mvn/version "1.0.93"}}}}}
