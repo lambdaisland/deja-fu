@@ -1,5 +1,5 @@
 {:paths ["src" "resources"]
- :deps  {lambdaisland/data-printers {:local/root "/home/arne/github/lambdaisland/data-printers" #_#_:mvn/version "0.0.22"}}
+ :deps  {lambdaisland/data-printers {:mvn/version "0.0.22"}}
 
  :aliases
  {:dev
