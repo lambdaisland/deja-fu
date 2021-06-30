@@ -133,7 +133,7 @@ a parse function which takes a string.
 ## Keyword access
 
 The killer feature of Deja-fu is that all three types implement several built-in
-ClojureScript protocol, making them behave much like regular maps or records.
+ClojureScript protocols, making them behave much like regular maps or records.
 
 ```clojurescript
 (keys (local-time)) ;; => (:hours :minutes :seconds :nanos :millis)
