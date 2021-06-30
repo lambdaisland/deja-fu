@@ -1,9 +1,9 @@
 #!bin/bb
 
-(ns proj 
+(ns proj
   (:require [lioss.main :as lioss]))
 
 (lioss/main
- {:license        :epl
+ {:license        :mpl
   :inception-year 2021
   :description    "Lightweight ClojureScript local time/date library"})

@@ -1,15 +1,13 @@
-{:paths ["src" "resources" "test" "test/lambdaisland"]
- :deps  {lambdaisland/data-printers {:mvn/version "0.0.22"}}
-
+{:paths ["src" "resources"]
+ :deps  {lambdaisland/data-printers {:local/root "/home/arne/github/lambdaisland/data-printers" #_#_:mvn/version "0.0.22"}}
 
  :aliases
  {:dev
   {:extra-paths ["dev"]
-   :extra-deps  {thheller/shadow-cljs {:mvn/version "2.14.2"}}}
+   :extra-deps  {org.clojure/clojurescript {:mvn/version "1.10.866"}}}
 
   :test
   {:extra-paths ["test"]
-   :extra-deps { cljs-bean/cljs-bean        {:mvn/version "1.6.0"}
-                lambdaisland/kaocha      {:mvn/version "1.0.861"}
-                org.clojure/test.check        {:mvn/version "1.1.0"}
-                com.lambdaisland/kaocha-cljs {:mvn/version "1.0.93"}}}}}
+   :extra-deps  {lambdaisland/kaocha          {:mvn/version "1.0.861"}
+                 org.clojure/test.check       {:mvn/version "1.1.0"}
+                 com.lambdaisland/kaocha-cljs {:mvn/version "1.0.93"}}}}}

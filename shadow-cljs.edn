@@ -1,7 +1,0 @@
-{:deps     {:aliases [:dev]}
- :dev-http {8007 "classpath:public"}
- :builds   {:dev {:target     :browser
-                  :modules    {:main {:entries [lambdaisland.deja-fu]}}
-                  :output-dir "resources/public/dev"
-                  :asset-path "dev"
-                  :devtools   {:repl-pprint true}}}}

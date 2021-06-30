@@ -1,0 +1,13 @@
+.cpcache
+.nrepl-port
+target
+repl
+scratch.clj
+.cljs_node_repl
+
+node_modules
+out
+.shadow-cljs
+package-lock.json
+resources/public
+.store
