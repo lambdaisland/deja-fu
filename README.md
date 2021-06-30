@@ -138,6 +138,7 @@ ClojureScript protocols, making them behave much like regular maps or records.
 ```clojurescript
 (keys (local-time)) ;; => (:hours :minutes :seconds :nanos :millis)
 (:seconds (local-time)) ;; => 16
+(assoc (local-date-time) :hours 10 :minutes 20 :seconds 30) ;; => #time/date-time "2021-06-30T10:20:30.529"
 (update (local-date-time) :year inc) ;; => #time/date-time "2022-06-30T10:17:24.561"
 
 (let [{:keys [hours minutes]} (local-time)]
