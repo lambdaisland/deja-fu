@@ -1,4 +1,4 @@
-# deja-fu
+# Déjà Fu
 
 <!-- badges -->
 [![cljdoc badge](https://cljdoc.org/badge/com.lambdaisland/deja-fu)](https://cljdoc.org/d/com.lambdaisland/deja-fu) [![Clojars Project](https://img.shields.io/clojars/v/com.lambdaisland/deja-fu.svg)](https://clojars.org/com.lambdaisland/deja-fu)
@@ -6,24 +6,22 @@
 
 Lightweight ClojureScript local time/date library
 
-While this library is relatively new, it has a battery of tests and has been used in production code.
-
-## Features
+> A martial art in which the user's limbs move in time as well as space,
+> allowing them to go back in time and punch the opponent repeatedly so that the
+> opponent feels the effects of past blows while standing in front of the
+> apparently motionless [Déjà > Fu](https://wiki.lspace.org/mediawiki/D%C3%A9j%C3%A0_Fu) practitioner. Similar
+> tricks can be used to render the opponent's attacks ineffective or otherwise
+> incapacitate him.
+>
+> It is best described as "the feeling that you have been kicked in the head this way before".
+>
+> — Terry Pratchet
 
 <!-- installation -->
 ## Installation
 
-To use the latest release, add the following to your `deps.edn` ([Clojure CLI](https://clojure.org/guides/deps_and_cli))
+Deja-fu is still in alpha, for now you can use it as a git dependency from `deps.edn`.
 
-```
-com.lambdaisland/deja-fu {:mvn/version "0.0.0"}
-```
-
-or add the following to your `project.clj` ([Leiningen](https://leiningen.org/))
-
-```
-[com.lambdaisland/deja-fu "0.0.0"]
-```
 <!-- /installation -->
 
 ## Rationale
