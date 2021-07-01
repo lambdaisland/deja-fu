@@ -29,7 +29,7 @@
     (assoc (local-date-time) :seconds 0)
 
   Get the next day:
-    (add-interval (local-date-time) 0 0 1)
+    (add-interval (local-date-time) {:hours 1})
 
   Works well with threading:
     (-> (parse-local-date-time \"2021-01-01T23:59\")
@@ -113,15 +113,9 @@ not inside single quotes."))
   (epoch-ms [obj] "Milliseconds since January 1, 1970")
   (to-local-date [obj] "Date part of a date or date-time")
   (to-local-time [obj] "Time part of a date-time or local time")
-  (-add-interval [obj years months days hours minutes seconds])
+  (add-interval [obj values] "Add an interval to the date/time")
   (with-date [obj date] "Set the date part of a DateTime")
   (with-time [obj time] "Set the time part of a DateTime"))
-
-(defn add-interval [obj & args]
-  (let [[years months days hours minutes seconds] args]
-    (-add-interval obj
-                   (or years 0) (or months 0) (or days 0)
-                   (or hours 0) (or minutes 0) (or seconds 0))))
 
 (declare ->LocalTime local-date-time)
 
@@ -129,7 +123,9 @@ not inside single quotes."))
   Format
   (format [obj]
     (if (and nanos (not= 0 nanos))
-      (format* obj "HH:mm:ss.SSSSSS")
+      (let [n (gstr/format "%09d" nanos)
+            precision (loop [p 8] (if (= "0" (.charAt n p)) (recur (dec p)) (inc p)))]
+        (str (format* obj "HH:mm:ss.") (subs n 0 precision)))
       (format* obj "HH:mm:ss")))
   (format [obj fmt]
     (format* obj fmt))
@@ -138,7 +134,8 @@ not inside single quotes."))
   (to-local-time [obj] obj)
   (with-date [obj date]
     (local-date-time (:year date) (:month date) (:day date) hours minutes seconds nanos))
-  (-add-interval [^js obj _ _ _ h mi s]
+  (add-interval [^js obj {h :hours mi :minutes s :seconds
+                          :or {h 0 mi 0 s 0}}]
     (let [seconds (+ seconds s)
           minutes (+ minutes mi (quot seconds 60))
           hours   (+ hours h (quot minutes 60))
@@ -149,8 +146,7 @@ not inside single quotes."))
     ;; bit weird to have epoch-ms here, but it helps to support other operations
     ;; that rely on it
     (+ (* 1000 (+ seconds (* 60 (+ (* 60 hours) minutes))))
-       (/ nanos 10e5)))
-
+       (/ nanos 1e6)))
 
   Object
   (toString [obj]
@@ -173,17 +169,27 @@ not inside single quotes."))
       (- v1 v2)))
   ILookup
   (-lookup [o k]
-    (case k :hours hours :minutes minutes :seconds seconds :nanos nanos nil))
+    (case k :hours hours :minutes minutes :seconds seconds :millis (long (/ nanos 1e6)) :nanos nanos nil))
   (-lookup [o k not-found]
-    (case k :hours hours :minutes minutes :seconds seconds :nanos nanos not-found))
+    (case k :hours hours :minutes minutes :seconds seconds :millis (long (/ nanos 1e6)) :nanos nanos not-found))
   IAssociative
   (-contains-key? [coll k]
-    (#{:hours :minutes :seconds :nanos} k))
+    (#{:hours :minutes :seconds :nanos :millis} k))
   (-assoc [coll k v]
     (->LocalTime (if (= k :hours) v hours)
                  (if (= k :minutes) v minutes)
                  (if (= k :seconds) v seconds)
-                 (if (= k :nanos) v nanos))))
+                 (cond
+                   (= k :nanos)
+                   v
+                   (= k :millis)
+                   (* v 1e6)
+                   :else
+                   nanos)))
+  ISeqable
+  (-seq [coll]
+    (for [k [:hours :minutes :seconds :nanos :millis]]
+      (MapEntry. k (get coll k) nil))))
 
 (extend-type goog.date.Date
   Format
@@ -196,9 +202,14 @@ not inside single quotes."))
   Conversions
   (epoch-ms [obj]
     (.getTime obj))
-  (-add-interval [^js obj years months days hours minutes seconds]
+  (add-interval [^js obj {:keys [years months days hours minutes seconds]
+                          :or {years 0 months 0 days 0 hours 0 minutes 0 seconds 0}}]
     (doto (.clone obj)
       (.add (goog.date.Interval. years months days hours minutes seconds))))
+  (to-local-date [obj]
+    obj)
+  (with-time [_ {:keys [hours minutes seconds nanos]}]
+    (local-date-time years months days hours minutes seconds nanos))
 
   IPrintWithWriter
   (-pr-writer [obj writer _opts]
@@ -240,7 +251,11 @@ not inside single quotes."))
           :month (.setMonth d (dec v))
           :day (.setDate d v))
         d)
-      o)))
+      o))
+  ISeqable
+  (-seq [coll]
+    (for [k [:year :month :day]]
+      (MapEntry. k (get coll k) nil))))
 
 (defn local-date
   "contstructs a goog.date.Date
@@ -288,9 +303,12 @@ not inside single quotes."))
                 (.getMinutes obj)
                 (.getSeconds obj)
                 (* (.getMilliseconds obj) 1e6)))
-  (-add-interval [^js obj years months days hours minutes seconds]
-    (doto (.clone obj)
-      (.add (goog.date.Interval. years months days hours minutes seconds))))
+  (add-interval [^js obj {:keys [years months days hours minutes seconds millis nanos]
+                          :or {years 0 months 0 days 0 hours 0 minutes 0 seconds 0}}]
+    (cond-> (doto (.clone obj)
+              (.add (goog.date.Interval. years months days hours minutes seconds))) ; Interval only has second-precision
+      (or millis nanos)
+      (update :millis + (or millis 0) (long (/ (or nanos 0) 1e6)))))
   (with-date [obj local-date]
     (doto (.clone obj)
       (.setYear (.getYear local-date))
@@ -300,7 +318,8 @@ not inside single quotes."))
     (doto (.clone obj)
       (.setHours (:hours local-time))
       (.setMinutes (:minutes local-time))
-      (.setSeconds (:seconds local-time))))
+      (.setSeconds (:seconds local-time))
+      (.setMilliseconds (:millis local-time))))
   Object
   (toString [obj]
     (format obj))
@@ -323,6 +342,8 @@ not inside single quotes."))
        :hours (.getHours o)
        :minutes (.getMinutes o)
        :seconds (.getSeconds o)
+       :millis (.getMilliseconds o)
+       :nanos (* (.getMilliseconds o) 1e6)
        nil))
     ([o k not-found]
      (case k
@@ -332,12 +353,14 @@ not inside single quotes."))
        :hours (.getHours o)
        :minutes (.getMinutes o)
        :seconds (.getSeconds o)
+       :millis (.getMilliseconds o)
+       :nanos (* (.getMilliseconds o) 1e6)
        not-found)))
   IAssociative
   (-contains-key? [_ k]
-    (#{:year :month :day :hours :minutes :seconds} k))
+    (#{:year :month :day :hours :minutes :seconds :millis :nanos} k))
   (-assoc [o k v]
-    (if (#{:year :month :day :hours :minutes :seconds} k)
+    (if (#{:year :month :day :hours :minutes :seconds :millis :nanos} k)
       (let [d (.clone o)]
         (case k
           :year (.setYear d v)
@@ -345,9 +368,15 @@ not inside single quotes."))
           :day (.setDate d v)
           :hours (.setHours d v)
           :minutes (.setMinutes d v)
-          :seconds (.setSeconds d v))
+          :seconds (.setSeconds d v)
+          :millis (.setMilliseconds d v)
+          :nanos (.setMilliseconds d (long (/ v 1e6))))
         d)
-      o)))
+      o))
+  ISeqable
+  (-seq [coll]
+    (for [k [:year :month :day :year :month :day :hours :minutes :seconds :millis :nanos]]
+      (MapEntry. k (get coll k) nil))))
 
 ;; The way goog.date.Date/DateTime are defined means the constructor function is
 ;; anonymous, it's name is "", and this property is by default read-only. We
@@ -381,7 +410,7 @@ not inside single quotes."))
   ([year month day hours minutes seconds]
    (local-date-time year month day hours minutes seconds 0))
   ([year month day hours minutes seconds nanos]
-   (goog.date.DateTime. year (dec month) day hours minutes seconds (long (/ nanos 10e5)))))
+   (goog.date.DateTime. year (dec month) day hours minutes seconds (long (/ nanos 1e6)))))
 
 (defn parse-local-date
   "Parse a date (YYYY-MM-DD) to a goog.date.Date"
@@ -423,7 +452,7 @@ not inside single quotes."))
       (.setSeconds d (.-seconds t))
       ;; goog.date.DateTime only has milliseconds, so we truncate. Not a huge
       ;; loss.
-      (.setMilliseconds d (long (/ (.-nanos t) 10e5)))
+      (.setMilliseconds d (long (/ (.-nanos t) 1e6)))
       d)))
 
 (defn parse-offset-date-time
@@ -435,13 +464,20 @@ not inside single quotes."))
   [date-time]
   (goog.date.DateTime/fromIsoString date-time))
 
-(defn current-time-millis []
+(defn current-time-millis
+  "Get the current UNIX timestamp in milliseconds."
+  []
   (js/Date.now))
 
-(defn today []
+(defn today
+  "Get a #time/date with the current date, convenience API alternative to
+  calling `(local-date)` without args."
+  []
   (goog.date.Date.))
 
-(defn millis-between [begin end]
+(defn millis-between
+  "Get the interval between two date/time objects in milliseconds"
+  [begin end]
   (let [begin-ms (epoch-ms begin)
         end-ms (epoch-ms end)
         millis (js/Math.ceil (- end-ms begin-ms))]
@@ -450,10 +486,14 @@ not inside single quotes."))
       (< 0 millis) (js/Math.ceil millis)
       :else 0)))
 
-(defn minutes-between [begin end]
+(defn minutes-between
+  "Get the interval between two date/time objects in minutes"
+  [begin end]
   (Math/floor (/ (millis-between begin end) 1000 60)))
 
-(defn days-between [begin end]
+(defn days-between
+  "Get the interval between two date/time objects in days"
+  [begin end]
   (Math/floor (/ (millis-between begin end) 1000 60 60 24)))
 
 (defn browser-timezone-offset
