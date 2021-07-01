@@ -1,4 +1,4 @@
-# Déjà Fu
+# deja-fu
 
 <!-- badges -->
 [![cljdoc badge](https://cljdoc.org/badge/com.lambdaisland/deja-fu)](https://cljdoc.org/d/com.lambdaisland/deja-fu) [![Clojars Project](https://img.shields.io/clojars/v/com.lambdaisland/deja-fu.svg)](https://clojars.org/com.lambdaisland/deja-fu)
@@ -6,16 +6,11 @@
 
 Lightweight ClojureScript local time/date library
 
-> A martial art in which the user's limbs move in time as well as space,
-> allowing them to go back in time and punch the opponent repeatedly so that the
-> opponent feels the effects of past blows while standing in front of the
-> apparently motionless [Déjà > Fu](https://wiki.lspace.org/mediawiki/D%C3%A9j%C3%A0_Fu) practitioner. Similar
-> tricks can be used to render the opponent's attacks ineffective or otherwise
-> incapacitate him.
->
-> It is best described as "the feeling that you have been kicked in the head this way before".
->
-> — Terry Pratchet
+> “What?” said Lobsang, into the mat. “You said none of the monks knew [*deja-fu*](https://wiki.lspace.org/mediawiki/D%C3%A9j%C3%A0_Fu)!” \
+> “I never taught it to 'em, that's why!” said Lu-Tze. “Promise not to harm me, would you? Thank you so very much! Submit?” \
+> “You never told me *you* knew it!” Lu-Tze's knees, rammed into the secret pressure points, were turning Lobsang's arms into powerless lumps of flesh. \
+> “I may be old but I'm not daft!” Lu-Tze shouted. “You don't think I'd give away a trick like *that*, do you?” \
+> — Terry Pratchet, Thief of Time
 
 <!-- installation -->
 ## Installation
