@@ -66,7 +66,7 @@ and times in a JavaScript world.
 We provide a single namespace, `lambdaisland.deja-fu`. All examples below call
 functions from that namespace.
 
-``` clojurescript
+```clojure
 (ns my-ns
   (:require [lambdaisland.deja-fu :as fu]))
   
@@ -91,7 +91,7 @@ For each type there's a constructor that takes either the individual elements as
 positional arguments, or no args to get the current date/time/datetime. Each has
 a parse function that takes a string.
 
-``` clojurescript
+```clojure
 ;;;;;;;;;;;;;;;;;;; Time
 ;; Current time
 (local-time) ;; => #time/time "09:33:53.048000"
@@ -130,7 +130,7 @@ a parse function that takes a string.
 The killer feature of Deja-fu is that all three types implement several built-in
 ClojureScript protocols, making them behave much like regular maps or records.
 
-```clojurescript
+```clojure
 (keys (local-time)) ;; => (:hours :minutes :seconds :nanos :millis)
 (:seconds (local-time)) ;; => 16
 (assoc (local-date-time) :hours 10 :minutes 20 :seconds 30) ;; => #time/date-time "2021-06-30T10:20:30.529"
@@ -147,7 +147,7 @@ You can destructure, update certain fields, etc.
 
 We provide the following conversion methods
 
-``` clojurescript
+```clojure
 (defprotocol Conversions
   (epoch-ms [obj] "Milliseconds since January 1, 1970")
   (to-local-date [obj] "Date part of a date or date-time")
@@ -161,7 +161,7 @@ We provide the following conversion methods
 or the time part. When called on a `#time/date` or `#time/time` respectively
 they are idempotent.
 
-``` clojurescript
+```clojure
 (to-local-date (local-date-time)) ;; => #time/date "2021-06-30"
 (to-local-time (local-date-time)) ;; => #time/time "10:33:49.267"
 (to-local-date (local-date)) ;; => #time/date "2021-06-30"
@@ -171,7 +171,7 @@ they are idempotent.
 `with-date` / `with-time` combines two date/time objects, retaining the date
 part of one, and the time part of the other.
 
-``` clojurescript
+```clojure
 (with-time (local-date) (local-time));; => #time/date-time "2021-06-30T10:33:27.691"
 
 (with-time (local-date-time) (local-time));; => #time/date-time "2021-06-30T10:33:22.432"
@@ -179,7 +179,7 @@ part of one, and the time part of the other.
 
 `add-interval` takes a map with `:years` / `:months` / `:days`, etc.
 
-```clojurescript
+```clojure
 (add-interval (local-date) {:years 5 :days 3}) ;; => #time/date "2026-07-03"
 (add-interval (local-time) {:minutes 5}) ;; => #time/time "10:42:08.239" 
 ```
@@ -193,7 +193,7 @@ For formatting we rely on the Google Closure library, see the docstring of
 `lambdaisland.deja-fu/format` for valid patterns. Without a pattern, `format`
 will use standard ISO formatting.
 
-```clojurescript
+```clojure
 (format (local-date-time)) ;; => "2021-06-30T10:39:18.423"
 (format (local-date-time) "dd. MMMM yyyy") ;; => "30. June 2021"
 ```
@@ -201,7 +201,7 @@ will use standard ISO formatting.
 Note that the Google Closure library contains many locale-specific patterns
 under [`goog.i18n.DateTimePatterns_*`](https://google.github.io/closure-library/api/goog.i18n.DateTimePatterns.html).
 
-``` clojurescript
+```clojure
 (ns my-ns
   (:require [lambdaisland.deja-fu :as fu]
             [goog.i18n.DateTimePatterns_de :as DateTimePatterns_de]))
@@ -218,7 +218,7 @@ under [`goog.i18n.DateTimePatterns_*`](https://google.github.io/closure-library/
 
 To get the current UTC time you can use
 
-```clojurescript
+```clojure
 (add-interval (local-time) {:minutes (browser-timezone-offset)})
 ```
 
@@ -248,7 +248,7 @@ and will continue to provide values truncated to the millisecond.
 When printing deja-fu values via nREPL and piggieback, they may come out looking
 a little off.
 
-```clojurescript
+```clojure
 ;; Expected
 #time/time "10:15:59.123"
 
