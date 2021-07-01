@@ -36,11 +36,11 @@ The equivalent in the JavaScript/ClojureScript world is js-joda, which is used
 by the ClojureScript version of [juxt/tick](https://github.com/juxt/tick), or
 the upcoming [TC39 Temporal API](https://github.com/tc39/proposal-temporal).
 Eventually we can expect Temporal to become part of browsers and other JS
-runtimes, but until then a hefty polyfill is needed, significantly blowing up
+runtimes, but until then, a hefty polyfill is needed, significantly blowing up
 build size. The same is true of js-joda.
 
 For applications where dealing with time is not enough of their core business to
-justify these large dependencies, a more lightweight alternative is needed. This
+justify these large dependencies, a lighter alternative is needed. This
 is where deja-fu comes in. It builds upon the Google Closure library's
 `goog.date.Date` and `goog.date.DateTime`, and adds a third "time" type, thus
 providing representations for three concepts.
@@ -63,7 +63,7 @@ The API that deja-fu provides is by no means as comprehensive as java.time,
 js-joda, or Temporal. Instead we provide basic primitives for parsing,
 formatting, and manipulating times in a way that hopefully feels intuitive and
 convenient for Clojure programmers. It tries to be Good Enough while retaining a
-limited footprint, and paving over some of the quirkiness of dealing with dates
+limited footprint and paving over some of the quirkiness of dealing with dates
 and times in a JavaScript world.
 
 ## Getting started
@@ -84,17 +84,17 @@ For brevity we have omitted the `fu/` prefix in the rest of the README.
 
 | Reader / printer syntax                        | deja-fu type                    | equivalent JDK type     |
 |------------------------------------------------|---------------------------------|-------------------------|
-| #time/date "2020-10-10"                      | goog.date.Date                  | java.time.LocalDate     |
-| #time/time "05:30:45"                        | ductile.time.js-types/LocalTime | java.time.LocalTime     |
-| #time/date-time "2020-10-07T12:16:41.761088" | goog.date.DateTime              | java.time.LocalDateTime |
+| #time/date "2020-10-10"                        | goog.date.Date                  | java.time.LocalDate     |
+| #time/time "05:30:45"                          | ductile.time.js-types/LocalTime | java.time.LocalTime     |
+| #time/date-time "2020-10-07T12:16:41.761088"   | goog.date.DateTime              | java.time.LocalDateTime |
 
 deja-fu includes a `data_readers.cljs` which provides support for tagged
 literals in code, and it registers print and pretty-print handlers for printing
 values of these types as tagged literals.
 
-For each type there's a constructor which takes the individual elements as
+For each type there's a constructor that takes either the individual elements as
 positional arguments, or no args to get the current date/time/datetime. Each has
-a parse function which takes a string.
+a parse function that takes a string.
 
 ``` clojurescript
 ;;;;;;;;;;;;;;;;;;; Time
@@ -189,13 +189,13 @@ part of one, and the time part of the other.
 (add-interval (local-time) {:minutes 5}) ;; => #time/time "10:42:08.239" 
 ```
 
-`epoch-ms` returns a UNIX timestamp with millisecond precision, i.e. the number
+`epoch-ms` returns a UNIX timestamp with millisecond precision, i.e., the number
 of milliseconds since January 1, 1970.
 
 ## Formatting
 
 For formatting we rely on the Google Closure library, see the docstring of
-`lambdaisland.deja-fu/format` for valid patterns. Without a pattern `format`
+`lambdaisland.deja-fu/format` for valid patterns. Without a pattern, `format`
 will use standard ISO formatting.
 
 ```clojurescript
@@ -204,7 +204,7 @@ will use standard ISO formatting.
 ```
 
 Note that the Google Closure library contains many locale-specific patterns
-under `goog.i18n.DateTimePatterns_*`.
+under [`goog.i18n.DateTimePatterns_*`](https://google.github.io/closure-library/api/goog.i18n.DateTimePatterns.html).
 
 ``` clojurescript
 (ns my-ns
@@ -231,21 +231,21 @@ To get the current UTC time you can use
 
 ### Nanoseconds vs Milliseconds
 
-The deja-fu API generally works with nanoseconds, for instance the constructors
+The deja-fu API generally works with nanoseconds, for instance, the constructors
 above take nanoseconds. However, `goog.date.DateTime`, being based on `js/Date`,
-only has millisecond precision. This means nanosecond values will be truncated
+only has millisecond precision. This means nanosecond values are truncated
 to millisecond precision.
 
-Our own `lambdaisland.deja-fu/LocalTime` type does not have this limitation, it
+Our own `lambdaisland.deja-fu/LocalTime` type does not have this limitation; it
 has full nanosecond precision.
 
 For keyword access we provide both `:millis` and `:nanos`, as a convenience.
 
 We may try to address this in a future version, by tacking a separate
 "nanoseconds" field onto `goog.date.DateTime`. As long as you stick to deja-fu
-APIs this change should be transparent, all code should work as before, except
-that values no longer get truncated. However, when using the
-`goog.date.DateTime` API directly it will not be aware of the nanosecond field,
+APIs this change should be transparent, and all code should work as before,
+except that values no longer get truncated. However, when using the
+`goog.date.DateTime` API directly, it will not be aware of the nanosecond field,
 and will continue to provide values truncated to the millisecond.
 
 ### Piggieback printing
@@ -273,7 +273,7 @@ this case, see the next point.
 deja-fu provides its own data-readers for `#time/time`, `#time/date` and
 `#time/date-time`. This means it conflicts with
 [time-literals](https://github.com/henryw374/time-literals), which provides
-these for both clj and cljs, but which is based on js-joda. If you are using
+these for both clj and cljs, but is based on js-joda. If you are using
 deja-fu, you should not be using js-joda (and vice versa).
 
 Other libraries that are incompatible because they rely on js-joda or
