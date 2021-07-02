@@ -195,7 +195,7 @@ not inside single quotes."))
   Format
   (format
     ([obj]
-     (format* obj "YYYY-MM-dd"))
+     (format* obj "yyyy-MM-dd"))
     ([obj fmt]
      (format* obj fmt)))
 
@@ -281,7 +281,7 @@ not inside single quotes."))
   Format
   (format
     ([obj]
-     (let [fmt (cond-> "YYYY-MM-dd'T'HH:mm"
+     (let [fmt (cond-> "yyyy-MM-dd'T'HH:mm"
                  (or (not= 0 (.getSeconds obj))
                      (not= 0 (.getMilliseconds obj)))
                  (str ":ss")

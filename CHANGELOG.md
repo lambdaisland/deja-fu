@@ -5,6 +5,7 @@
 ## Fixed
 
 - `format` now better handles nanoseconds of `#time/time` types
+- Default format strings use the correct pattern for years (`yyyy` instead of `YYYY`)
 
 ## Changed
 
