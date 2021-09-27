@@ -208,8 +208,8 @@ not inside single quotes."))
       (.add (goog.date.Interval. years months days hours minutes seconds))))
   (to-local-date [obj]
     obj)
-  (with-time [_ {:keys [hours minutes seconds nanos]}]
-    (local-date-time years months days hours minutes seconds nanos))
+  (with-time [{:keys [year month day]} {:keys [hours minutes seconds nanos]}]
+    (local-date-time year month day hours minutes seconds nanos))
 
   IPrintWithWriter
   (-pr-writer [obj writer _opts]

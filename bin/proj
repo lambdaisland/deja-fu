@@ -7,4 +7,4 @@
  {:license        :mpl
   :inception-year 2021
   :description    "Lightweight ClojureScript local time/date library"
-  :group-id       "lambdaisland.com"})
+  :group-id       "com.lambdaisland"})
