@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemalocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>lambdaisland.com</groupId>
+  <groupId>com.lambdaisland</groupId>
   <artifactId>deja-fu</artifactId>
-  <version>0.0.23</version>
+  <version>0.0.26</version>
   <name>deja-fu</name>
   <description>Lightweight ClojureScript local time/date library</description>
   <url>https://github.com/lambdaisland/deja-fu</url>
@@ -22,7 +22,7 @@
     <url>https://github.com/lambdaisland/deja-fu</url>
     <connection>scm:git:git://github.com/lambdaisland/deja-fu.git</connection>
     <developerConnection>scm:git:ssh://git@github.com/lambdaisland/deja-fu.git</developerConnection>
-    <tag>7c6da1abf95505eb967efe834b2d265860c5794e</tag>
+    <tag>331539f5e85e4ce35a2bdafd823369fb302571bf</tag>
   </scm>
   <dependencies>
     <dependency>
@@ -54,7 +54,7 @@
         <configuration>
           <archive>
             <manifestEntries>
-              <git-revision>7c6da1abf95505eb967efe834b2d265860c5794e</git-revision>
+              <git-revision>331539f5e85e4ce35a2bdafd823369fb302571bf</git-revision>
             </manifestEntries>
           </archive>
         </configuration>
