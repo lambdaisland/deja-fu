@@ -15,7 +15,12 @@ Lightweight ClojureScript local time/date library
 <!-- installation -->
 ## Installation
 
-Deja-fu is still in alpha, for now you can use it as a git dependency from `deps.edn`.
+Deja-fu is still in alpha, for now you can use it as a git dependency from `deps.edn`. Example:
+
+```
+lambdaisland/deja-fu {:git/url "https://github.com/lambdaisland/deja-fu"
+                      :sha     "<latest git commit SHA here>"}
+```
 
 <!-- /installation -->
 
