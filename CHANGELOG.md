@@ -2,6 +2,8 @@
 
 ## Added
 
+- First public release of the API
+
 ## Fixed
 
 - `format` now better handles nanoseconds of `#time/time` types
