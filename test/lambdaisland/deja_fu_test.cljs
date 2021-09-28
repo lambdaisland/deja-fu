@@ -92,3 +92,7 @@
   (is (= "10:11:12.135" (fu/format (fu/local-time 10 11 12 135e6))))
   (is (= "10:11:12.135678" (fu/format (fu/local-time 10 11 12 135678e3))))
   (is (= "10:11:12.135678123" (fu/format (fu/local-time 10 11 12 135678123)))))
+
+(deftest parse-local-date-dest
+  (is (= (fu/parse-local-date "2021-10-11") (fu/local-date 2021 10 11)))
+  (is (= (fu/parse-local-date "2021-10-5") (fu/local-date 2021 10 5))))

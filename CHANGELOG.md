@@ -4,6 +4,9 @@
 
 ## Fixed
 
+- Support parsing dates with single digit month/day, like 2021-7-5 
+- Stop relying on a private goog.date function, reimplement it ourselves instead
+
 ## Changed
 
 # 0.0.26 (2021-09-27 / e2ad16f)

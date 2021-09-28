@@ -40,7 +40,7 @@
             [goog.string :as gstr]
             [goog.string.format]
             [lambdaisland.data-printers :as data-printers])
-  (:import (goog.date Date DateTime)
+  (:import (goog.date Date DateTime Interval)
            (goog.i18n DateTimeFormat)))
 
 (def formatter
@@ -412,10 +412,56 @@ not inside single quotes."))
   ([year month day hours minutes seconds nanos]
    (goog.date.DateTime. year (dec month) day hours minutes seconds (long (/ nanos 1e6)))))
 
+(def date-string-regex
+  #"^(\d{4})(?:(?:-?(\d{1,2})(?:-?(\d{1,2}))?)|(?:-?(\d{3}))|(?:-?W(\d{2})(?:-?([1-7]))?))?$")
+
+(defn- setIso8601DateOnly
+  "like the goog.date function, but reimplemented because theirs is private, and
+  to support single digits months and days."
+  [d yyyy-mm-dd]
+  (let [[_ year month date dayOfYear week dayOfWeek]
+        (re-find date-string-regex yyyy-mm-dd)
+        dayOfWeek (or dayOfWeek 1)]
+    (.setFullYear d year)
+    (cond
+      dayOfYear
+      (do
+        (.setDate d 1)
+        (.setMonth d 0)
+        (.add d (goog.date.Interval. goog.date.Interval/DAYS (- dayOfYear 1))))
+
+      week
+      (do
+        (.setMonth d 0)
+        (.setDate d 1)
+        (let [jsDay (.getDay d)
+              jan1WeekDay (or jsDay 7)
+              THURSDAY 4
+              startDelta (if (<= jan1WeekDay THURSDAY)
+                           (- 1 jan1WeekDay)
+                           (- 8 jan1WeekDay))
+              absoluteDays (+ (js/Number. dayOfWeek) (* 7 (dec (js/Number week))))
+              delta (+ startDelta absoluteDays -1)]
+          (.add d (goog.date.Interval. goog.date.Interval/DAYS delta))))
+
+      :else
+      (do
+        (when month
+          (.setDate d 1)
+          (.setMonth d (dec month)))
+        (when date
+          (.setDate d date)))))
+  d)
+
 (defn parse-local-date
-  "Parse a date (YYYY-MM-DD) to a goog.date.Date"
+  "Parse a date (YYYY-MM-DD) to a goog.date.Date
+
+  Reimplementation of goog.date.Date.fromIsostring but with support for single
+  digit month/day."
   [yyyy-mm-dd]
-  (goog.date.Date/fromIsoString yyyy-mm-dd))
+  (let [ret (Date. 2000)]
+    (when (setIso8601DateOnly ret yyyy-mm-dd)
+      ret)))
 
 (defn parse-local-time
   "Parse a timestamp (HH:MM:SS or HH:MM:SS.mmm or HH:MM:SS.nnnnnn) to a LocalTime."
@@ -443,7 +489,7 @@ not inside single quotes."))
   (let [d           (goog.date.DateTime. 2000)
         delim       (if (= -1 (.indexOf date-time "T")) " " "T")
         [date time] (str/split date-time delim)
-        d           (when (gdate/setIso8601DateOnly_ d date) d)
+        d           (when (setIso8601DateOnly d date) d)
         ^js t       (parse-local-time time)]
     d
     (when d
