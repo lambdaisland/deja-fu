@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.lambdaisland</groupId>
   <artifactId>deja-fu</artifactId>
-  <version>0.0.26</version>
+  <version>0.0.29</version>
   <name>deja-fu</name>
   <description>Lightweight ClojureScript local time/date library</description>
   <url>https://github.com/lambdaisland/deja-fu</url>
@@ -22,7 +22,7 @@
     <url>https://github.com/lambdaisland/deja-fu</url>
     <connection>scm:git:git://github.com/lambdaisland/deja-fu.git</connection>
     <developerConnection>scm:git:ssh://git@github.com/lambdaisland/deja-fu.git</developerConnection>
-    <tag>331539f5e85e4ce35a2bdafd823369fb302571bf</tag>
+    <tag>5b9aed3ba42367e434eb2168e84cf2d2f900889d</tag>
   </scm>
   <dependencies>
     <dependency>
@@ -54,7 +54,7 @@
         <configuration>
           <archive>
             <manifestEntries>
-              <git-revision>331539f5e85e4ce35a2bdafd823369fb302571bf</git-revision>
+              <git-revision>5b9aed3ba42367e434eb2168e84cf2d2f900889d</git-revision>
             </manifestEntries>
           </archive>
         </configuration>
