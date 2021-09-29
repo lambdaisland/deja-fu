@@ -1,9 +1,5 @@
 # Unreleased
 
-## Added
-
-## Fixed
-
 ## Changed
 
 - BREAKING: `assoc` with a keyword that isn't understood now throws an `ex-info`
