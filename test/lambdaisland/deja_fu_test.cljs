@@ -96,3 +96,8 @@
 (deftest parse-local-date-dest
   (is (= (fu/parse-local-date "2021-10-11") (fu/local-date 2021 10 11)))
   (is (= (fu/parse-local-date "2021-10-5") (fu/local-date 2021 10 5))))
+
+(deftest assoc-invalid-keys
+  (is (thrown? ExceptionInfo (update (fu/local-date) :days inc)))
+  (is (thrown? ExceptionInfo (update (fu/local-time) :minute inc)))
+  (is (thrown? ExceptionInfo (update (fu/local-date-time) :years inc))))

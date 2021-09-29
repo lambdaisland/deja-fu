@@ -175,17 +175,21 @@ not inside single quotes."))
   IAssociative
   (-contains-key? [coll k]
     (#{:hours :minutes :seconds :nanos :millis} k))
-  (-assoc [coll k v]
-    (->LocalTime (if (= k :hours) v hours)
-                 (if (= k :minutes) v minutes)
-                 (if (= k :seconds) v seconds)
-                 (cond
-                   (= k :nanos)
-                   v
-                   (= k :millis)
-                   (* v 1e6)
-                   :else
-                   nanos)))
+  (-assoc [o k v]
+    (if (#{:hours :minutes :seconds :nanos :millis} k)
+      (->LocalTime (if (= k :hours) v hours)
+                   (if (= k :minutes) v minutes)
+                   (if (= k :seconds) v seconds)
+                   (cond
+                     (= k :nanos)
+                     v
+                     (= k :millis)
+                     (* v 1e6)
+                     :else
+                     nanos))
+      (throw (ex-info (str "No field " k " in LocalTime. Valid fields: "
+                           [:hours :minutes :seconds :nanos :millis])
+                      {:o o :k k :v v}))))
   ISeqable
   (-seq [coll]
     (for [k [:hours :minutes :seconds :nanos :millis]]
@@ -251,7 +255,9 @@ not inside single quotes."))
           :month (.setMonth d (dec v))
           :day (.setDate d v))
         d)
-      o))
+      (throw (ex-info (str "No field " k " in Date. Valid fields: "
+                           [:year :month :day])
+                      {:o o :k k :v v}))))
   ISeqable
   (-seq [coll]
     (for [k [:year :month :day]]
@@ -372,7 +378,9 @@ not inside single quotes."))
           :millis (.setMilliseconds d v)
           :nanos (.setMilliseconds d (long (/ v 1e6))))
         d)
-      o))
+      (throw (ex-info (str "No field " k " in DateTime. Valid fields: "
+                           [:year :month :day :hours :minutes :seconds :millis :nanos])
+                      {:o o :k k :v v}))))
   ISeqable
   (-seq [coll]
     (for [k [:year :month :day :year :month :day :hours :minutes :seconds :millis :nanos]]
