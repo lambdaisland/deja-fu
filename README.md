@@ -264,7 +264,7 @@ issue. Note that you'll have to set these up yourself, since using
 this case, see the next point.
 
 ### Deja-fu with Transit
-You may want to use [Transit](https://github.com/cognitect/transit-js) to send deja-fu times over the wire in your JSON payloads, such as the out-of-the-box behavior with ShadowCLJS. Here is an example of how this is done for goog.date.Dates, where the [above table](#types) can be used to swap in other time types you may be using. 
+You may want to use [Transit](https://github.com/cognitect/transit-js) to send deja-fu times over the wire in your JSON payloads, such as the out-of-the-box behavior with ShadowCLJS. Here is an example of how this is done for goog.date.Dates, where the [above table](#types) shows them to be the under-the-hood types for the deja-fu local-date type. For other types consult the table. 
 
 ```clojure
 (ns deja-foo
@@ -279,8 +279,8 @@ You may want to use [Transit](https://github.com/cognitect/transit-js) to send d
         auth-read-handlers  {:handlers {"LocalDate"
                                         (transit/read-handler 
                                          fu/parse-local-date)}}
-        treader (transit/reader. "json" auth-read-handlers)
-        twriter (transit/writer. "json" auth-write-handler) ]
+        treader (transit/reader :json auth-read-handlers)
+        twriter (transit/writer :json auth-write-handler) ]
     (->> (fu/local-date)
          (transit/write twriter)
          (transit/read treader))
