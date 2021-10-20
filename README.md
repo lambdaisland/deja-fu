@@ -25,7 +25,9 @@ This library is the result of a particular set of insights and design
 constraints. The main insight is that it is valuable to have distinct types for
 distinct concepts like a "calendar date" vs "wall time" vs a "date-time /
 timestamp". On the JVM we have known this for some time, thanks to Joda-Time and
-later the java.time API (aka JSR-310).
+later the
+[`java.time`](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/time/package-summary.html)
+API (aka [JSR-310](https://jcp.org/en/jsr/detail?id=310)).
 
 The equivalent in the JavaScript/ClojureScript world is js-joda, which is used
 by the ClojureScript version of [juxt/tick](https://github.com/juxt/tick), or
@@ -83,13 +85,13 @@ For brevity we have omitted the `fu/` prefix in the rest of the README.
 | #time/time "05:30:45"                          | ductile.time.js-types/LocalTime | java.time.LocalTime     |
 | #time/date-time "2020-10-07T12:16:41.761088"   | goog.date.DateTime              | java.time.LocalDateTime |
 
-deja-fu includes a `data_readers.cljs` which provides support for tagged
+deja-fu includes a `data_readers.cljs` file, which provides support for tagged
 literals in code, and it registers print and pretty-print handlers for printing
 values of these types as tagged literals.
 
 For each type there's a constructor that takes either the individual elements as
-positional arguments, or no args to get the current date/time/datetime. Each has
-a parse function that takes a string.
+positional arguments, or no args to get the current date/time/datetime. Each
+type also has a parse function that takes a string.
 
 ```clojure
 ;;;;;;;;;;;;;;;;;;; Time
