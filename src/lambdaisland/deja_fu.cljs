@@ -2,9 +2,9 @@
   "Time/Date types for use on the frontend. This provides the following
   equivalents:
 
-  | #time/date \"2020-10-10\"                      | java.time.LocalDate     | goog.date.Date                  |
-  | #time/time \"05:30:45\"                        | java.time.LocalTime     | ductile.time.js-types/LocalTime |
-  | #time/date-time \"2020-10-07T12:16:41.761088\" | java.time.LocalDateTime | goog.date.DateTime              |
+  | #time/date \"2020-10-10\"                      | java.time.LocalDate     | goog.date.Date                 |
+  | #time/time \"05:30:45\"                        | java.time.LocalTime     | lambdaisland.deja-fu/LocalTime |
+  | #time/date-time \"2020-10-07T12:16:41.761088\" | java.time.LocalDateTime | goog.date.DateTime             |
 
   For all of these we make sure the tagged reader literals are read correctly,
   and that values of these types print with these reader tags.

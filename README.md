@@ -79,11 +79,11 @@ For brevity we have omitted the `fu/` prefix in the rest of the README.
 
 ## Types
 
-| Reader / printer syntax                        | deja-fu type                    | equivalent JDK type     |
-|------------------------------------------------|---------------------------------|-------------------------|
-| #time/date "2020-10-10"                        | goog.date.Date                  | java.time.LocalDate     |
-| #time/time "05:30:45"                          | ductile.time.js-types/LocalTime | java.time.LocalTime     |
-| #time/date-time "2020-10-07T12:16:41.761088"   | goog.date.DateTime              | java.time.LocalDateTime |
+| Reader / printer syntax                        | deja-fu type                   | equivalent JDK type     |
+|------------------------------------------------|--------------------------------|-------------------------|
+| #time/date "2020-10-10"                        | goog.date.Date                 | java.time.LocalDate     |
+| #time/time "05:30:45"                          | lambdaisland.deja-fu/LocalTime | java.time.LocalTime     |
+| #time/date-time "2020-10-07T12:16:41.761088"   | goog.date.DateTime             | java.time.LocalDateTime |
 
 deja-fu includes a `data_readers.cljs` file, which provides support for tagged
 literals in code, and it registers print and pretty-print handlers for printing
