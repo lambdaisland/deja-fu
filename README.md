@@ -275,20 +275,19 @@ You may want to use [Transit](https://github.com/cognitect/transit-js) to send d
             [goog.date.Date]))
 
 (let [auth-write-handler {:handlers {goog.date.Date
-                                       (transit/write-handler
-                                        (constantly "LocalDate")
-                                        fu/format)}}
-        auth-read-handlers  {:handlers {"LocalDate"
-                                        (transit/read-handler 
-                                         fu/parse-local-date)}}
-        treader (transit/reader :json auth-read-handlers)
-        twriter (transit/writer :json auth-write-handler) ]
-    (->> (fu/local-date)
-         (transit/write twriter)
-         (transit/read treader))
-    );; => #time/date2021-10-11
+                                     (transit/write-handler
+                                      (constantly "LocalDate")
+                                      fu/format)}}
+      auth-read-handlers  {:handlers {"LocalDate"
+                                      (transit/read-handler
+                                       fu/parse-local-date)}}
+      treader (transit/reader :json auth-read-handlers)
+      twriter (transit/writer :json auth-write-handler) ]
+  (->> (fu/local-date)
+       (transit/write twriter)
+       (transit/read treader)))
+  ;; => #time/date "2021-10-11"
 ```
-
 
 ### Incompatibility with other libraries
 
