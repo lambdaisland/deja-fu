@@ -19,29 +19,6 @@ commands:
                 clojure_version: << parameters.clojure_version >>
 
 jobs:
-  java-15-clojure-1_10:
-    executor: clojure/openjdk15
-    steps: [{checkout_and_run: {clojure_version: "1.10.2"}}]
-
-  java-11-clojure-1_10:
-    executor: clojure/openjdk11
-    steps: [{checkout_and_run: {clojure_version: "1.10.2"}}]
-
-  java-8-clojure-1_10:
-    executor: clojure/openjdk8
-    steps: [{checkout_and_run: {clojure_version: "1.10.2"}}]
-
-  java-15-clojure-1_9:
-    executor: clojure/openjdk15
-    steps: [{checkout_and_run: {clojure_version: "1.9.0"}}]
-
-  java-11-clojure-1_9:
-    executor: clojure/openjdk11
-    steps: [{checkout_and_run: {clojure_version: "1.9.0"}}]
-
-  java-8-clojure-1_9:
-    executor: clojure/openjdk8
-    steps: [{checkout_and_run: {clojure_version: "1.9.0"}}]
   test:
     parameters:
       os:
@@ -62,9 +39,3 @@ workflows:
             parameters:
               os: [clojure/openjdk17, clojure/openjdk15, clojure/openjdk11, clojure/openjdk8]
               clojure_version: ["1.10.3", "1.11.1"]
-      # - java-15-clojure-1_10
-      # - java-11-clojure-1_10
-      # - java-8-clojure-1_10
-      # - java-15-clojure-1_9
-      # - java-11-clojure-1_9
-      # - java-8-clojure-1_9
