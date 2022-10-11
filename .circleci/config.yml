@@ -1,8 +1,8 @@
 version: 2.1
 
 orbs:
-  kaocha: lambdaisland/kaocha@0.0.1
-  clojure: lambdaisland/clojure@0.0.6
+  kaocha: lambdaisland/kaocha@0.0.3
+  clojure: lambdaisland/clojure@0.0.8
 
 commands:
   checkout_and_run:
