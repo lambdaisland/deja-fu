@@ -43,6 +43,11 @@ jobs:
     executor: clojure/openjdk8
     steps: [{checkout_and_run: {clojure_version: "1.9.0"}}]
   test:
+    parameters:
+      os:
+        type: executor
+      clojure_version:
+        type: string
     executor: << parameters.os >>
     steps:
       - checkout_and_run:
