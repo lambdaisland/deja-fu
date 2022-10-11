@@ -44,7 +44,7 @@ jobs:
     steps: [{checkout_and_run: {clojure_version: "1.9.0"}}]
   test:
     executor: << parameters.os >>
-    steps: [{checkout_and_run: {clojure_version:  << parameters.clojure_version >>}]
+    steps: [{checkout_and_run: {clojure_version: << parameters.clojure_version >>}]
 
 workflows:
   kaocha_test:
