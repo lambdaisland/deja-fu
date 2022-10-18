@@ -101,3 +101,60 @@
   (is (thrown? ExceptionInfo (update (fu/local-date) :days inc)))
   (is (thrown? ExceptionInfo (update (fu/local-time) :minute inc)))
   (is (thrown? ExceptionInfo (update (fu/local-date-time) :years inc))))
+
+(deftest distance-in-words-test
+  (is (= "less than 5 seconds"
+         (fu/distance-in-words (fu/local-date-time 2022 1 1 0 0 0)
+                               (fu/local-date-time 2022 1 1 0 0 1))))
+
+  (is (= "less than 10 seconds"
+         (fu/distance-in-words (fu/local-date-time 2022 1 1 0 0 0)
+                               (fu/local-date-time 2022 1 1 0 0 7))))
+
+  (is (= "half a minute"
+         (fu/distance-in-words (fu/local-date-time 2022 1 1 0 0 0)
+                               (fu/local-date-time 2022 1 1 0 0 20))))
+
+  (is (= "1 minute"
+         (fu/distance-in-words (fu/local-date-time 2022 1 1 0 0 0)
+                               (fu/local-date-time 2022 1 1 0 1 20))))
+
+  (is (= "2 minutes"
+         (fu/distance-in-words (fu/local-date-time 2022 1 1 0 0 0)
+                               (fu/local-date-time 2022 1 1 0 1 50))))
+
+  (is (= "about 1 hour"
+         (fu/distance-in-words (fu/local-date-time 2022 1 1 0 0 0)
+                               (fu/local-date-time 2022 1 1 1 1 50))))
+
+  (is (= "about 2 hours"
+         (fu/distance-in-words (fu/local-date-time 2022 1 1 0 0 0)
+                               (fu/local-date-time 2022 1 1 2 1 50))))
+
+  (is (= "1 day"
+         (fu/distance-in-words (fu/local-date-time 2022 1 1 0 0 0)
+                               (fu/local-date-time 2022 1 2 2 1 50))))
+
+  (is (= "8 days"
+         (fu/distance-in-words (fu/local-date-time 2022 1 1 0 0 0)
+                               (fu/local-date-time 2022 1 9 0 1 50))))
+
+  (is (= "about 1 month"
+         (fu/distance-in-words (fu/local-date-time 2022 1 1 0 0 0)
+                               (fu/local-date-time 2022 2 2 2 1 50))))
+
+  (is (= "3 months"
+         (fu/distance-in-words (fu/local-date-time 2022 1 1 0 0 0)
+                               (fu/local-date-time 2022 4 2 2 1 50))))
+
+  (is (= "about 1 year"
+         (fu/distance-in-words (fu/local-date-time 2022 1 1 0 0 0)
+                               (fu/local-date-time 2023 4 2 2 1 50))))
+
+  (is (= "over 1 year"
+         (fu/distance-in-words (fu/local-date-time 2022 1 1 0 0 0)
+                               (fu/local-date-time 2023 5 2 2 1 50))))
+
+  (is (= "almost 2 years"
+         (fu/distance-in-words (fu/local-date-time 2022 1 1 0 0 0)
+                               (fu/local-date-time 2023 11 2 2 1 50)))))

@@ -2,9 +2,8 @@
 
 ## Added
 
-## Fixed
-
-## Changed
+- add `distance-in-words`, to render relative time strings like "3 months ago"
+- add `leap-year?`
 
 # 0.3.33 (2021-09-29 / 2f982ae)
 

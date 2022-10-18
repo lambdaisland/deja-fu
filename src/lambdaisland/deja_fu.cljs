@@ -555,3 +555,114 @@ not inside single quotes."))
   e.g. when in CET (+1) this returns -60."
   []
   (.getTimezoneOffset (js/Date.)))
+
+(defn leap-year?
+  "Does the year, or the year field of the given local date/date-time, a leap
+  year?"
+  [year-or-date-like]
+  (goog.date/isLeapYear (if (number? year-or-date-like)
+                          year-or-date-like
+                          (:year year-or-date-like
+                                 (:year (to-local-date year-or-date-like))))))
+
+;; Relative time in words
+;; ======================
+
+;; The code below is ported from ActiveSupport, which is MIT licensed, so we
+;; dual-license it as MPL and MIT.
+
+;; Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+;; The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+;; THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+(def relative-time-patterns
+  "Word patterns, can be passed in for i18n"
+  {:about-x-hours ["about 1 hour" "about {{count}} hours"]
+   :about-x-months ["about 1 month" "about {{count}} months"]
+   :about-x-years ["about 1 year" "about {{count}} years"]
+   :almost-x-years ["almost 1 year" "almost {{count}} years"]
+   :half-a-minute "half a minute"
+   :less-than-x-seconds ["less than 1 second" "less than {{count}} seconds"]
+   :less-than-x-minutes ["less than a minute" "less than {{count}} minutes"]
+   :over-x-years ["over 1 year" "over {{count}} years"]
+   :x-seconds ["1 second" "{{count}} seconds"]
+   :x-minutes ["1 minute" "{{count}} minutes"]
+   :x-days ["1 day" "{{count}} days"]
+   :x-months ["1 month" "{{count}} months"]
+   :x-years ["1 year" "{{count}} years"]})
+
+(defn- render-pattern [patterns k cnt]
+  (let [p (get patterns k)
+        p (cond
+            (string? p)
+            p
+            (= 1 cnt)
+            (first p)
+            :else
+            (second p))]
+    (str/replace p #"\{\{count\}\}" (str cnt))))
+
+(defn distance-in-words
+  ([from to]
+   (distance-in-words from to nil))
+  ([from to {:keys [patterns]
+             :or {patterns relative-time-patterns}}]
+   (let [[from to] (if (< to from) [to from] [from to])
+         from-ms   (epoch-ms from)
+         to-ms     (epoch-ms to)
+         delta-ms  (- to-ms from-ms)
+         delta-s   (Math/round (/ delta-ms 1000))
+         delta-m   (Math/round (/ delta-ms 60000))
+         delta-h   (Math/round (/ delta-ms 3600000))
+         pattern   #(render-pattern patterns %1 %2)]
+     (cond
+       (<= 0 delta-m 1)
+       (cond
+         (<= 0 delta-s 4)   (pattern :less-than-x-seconds 5)
+         (<= 5 delta-s 9)   (pattern :less-than-x-seconds 10)
+         (<= 10 delta-s 19) (pattern :less-than-x-seconds 20)
+         (<= 20 delta-s 39) (pattern :half-a-minute nil)
+         (<= 40 delta-s 59) (pattern :less-than-x-minutes 1)
+         :else
+         (pattern :x-minutes 1))
+       (<= 2 delta-m 44)         (pattern :x-minutes delta-m)
+       (<= 45 delta-m 89)        (pattern :about-x-hours 1)
+       ;; 90 mins up to 24 hours
+       (<= 90 delta-m 1439)      (pattern :about-x-hours delta-h)
+       ;; 24 to 42 hours
+       (<= 1440 delta-m 2519)    (pattern :x-days 1)
+       ;; 30 to 60 days
+       (<= 2520 delta-m 43199)   (pattern :x-days (Math/round (/ delta-m 1440)))
+       ;; 60 to 365 days
+       (<= 43200 delta-m 86399)  (pattern :about-x-months (Math/round (/ delta-m 43200)))
+       ;; 60 days up to 365 days
+       (<= 86400 delta-m 525600) (pattern :x-months (Math/round (/ delta-m 43200)))
+
+       :else
+       (let [from-year                      (cond-> (:year from) (< 2 (:month from)) inc)
+             to-year                        (cond-> (:year to) (< (:month from) 3) dec)
+             leap-years                     (count (filter leap-year? (range from-year (inc to-year))))
+             leap-year-minute-offset        (* leap-years 1440)
+             minutes-offset                 (- delta-m leap-year-minute-offset)
+             minutes-in-quarter-year 	    131400
+             minutes-in-three-quarters-year 394200
+             minutes-in-year                525600
+             remainder                      (mod minutes-offset minutes-in-year)
+             distance-years                 (quot minutes-offset minutes-in-year)]
+
+         (cond
+           (< remainder minutes-in-quarter-year)
+           (do
+             (prn 1)
+             (pattern :about-x-years distance-years))
+
+           (< remainder minutes-in-three-quarters-year)
+           (do
+             (prn 2)
+             (pattern :over-x-years distance-years))
+
+           :else
+           (do (prn 3)
+               (pattern :almost-x-years (inc distance-years)))))))))
