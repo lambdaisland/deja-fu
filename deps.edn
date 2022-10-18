@@ -1,13 +1,13 @@
 {:paths ["src" "resources"]
- :deps  {lambdaisland/data-printers {:mvn/version "0.0.22"}}
+ :deps  {lambdaisland/data-printers {:mvn/version "0.7.47"}}
 
  :aliases
  {:dev
   {:extra-paths ["dev"]
-   :extra-deps  {org.clojure/clojurescript {:mvn/version "1.10.866"}}}
+   :extra-deps  {org.clojure/clojurescript {:mvn/version "1.11.60"}}}
 
   :test
   {:extra-paths ["test"]
-   :extra-deps  {lambdaisland/kaocha          {:mvn/version "1.0.861"}
-                 org.clojure/test.check       {:mvn/version "1.1.0"}
-                 com.lambdaisland/kaocha-cljs {:mvn/version "1.0.113"}}}}}
+   :extra-deps  {lambdaisland/kaocha          {:mvn/version "1.70.1086"}
+                 org.clojure/test.check       {:mvn/version "1.1.1"}
+                 com.lambdaisland/kaocha-cljs {:mvn/version "1.4.130"}}}}}

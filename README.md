@@ -1,7 +1,7 @@
 # deja-fu
 
 <!-- badges -->
-[![cljdoc badge](https://cljdoc.org/badge/com.lambdaisland/deja-fu)](https://cljdoc.org/d/com.lambdaisland/deja-fu) [![Clojars Project](https://img.shields.io/clojars/v/com.lambdaisland/deja-fu.svg)](https://clojars.org/com.lambdaisland/deja-fu)
+[![CircleCI](https://circleci.com/gh/com.lambdaisland/deja-fu.svg?style=svg)](https://circleci.com/gh/com.lambdaisland/deja-fu) [![cljdoc badge](https://cljdoc.org/badge/com.lambdaisland/deja-fu)](https://cljdoc.org/d/com.lambdaisland/deja-fu) [![Clojars Project](https://img.shields.io/clojars/v/com.lambdaisland/deja-fu.svg)](https://clojars.org/com.lambdaisland/deja-fu)
 <!-- /badges -->
 
 Lightweight ClojureScript local time/date library
@@ -15,8 +15,17 @@ Lightweight ClojureScript local time/date library
 <!-- installation -->
 ## Installation
 
-Deja-fu is still in alpha, for now you can use it as a git dependency from `deps.edn`.
+To use the latest release, add the following to your `deps.edn` ([Clojure CLI](https://clojure.org/guides/deps_and_cli))
 
+```
+com.lambdaisland/deja-fu {:mvn/version "1.3.51"}
+```
+
+or add the following to your `project.clj` ([Leiningen](https://leiningen.org/))
+
+```
+[com.lambdaisland/deja-fu "1.3.51"]
+```
 <!-- /installation -->
 
 ## Rationale
@@ -336,7 +345,7 @@ Contributors MUST
 
 - adhere to the [LambdaIsland Clojure Style Guide](https://nextjournal.com/lambdaisland/clojure-style-guide)
 - write patches that solve a problem. Start by stating the problem, then supply a minimal solution. `*`
-- agree to license their contributions as EPL 1.0.
+- agree to license their contributions as MPL 2.0.
 - not break the contract with downstream consumers. `**`
 - not break the tests.
 
@@ -362,7 +371,7 @@ changes are justified.
 <!-- license -->
 ## License
 
-Copyright &copy; 2021 Arne Brasseur and contributors
+Copyright &copy; 2021-2022 Arne Brasseur and Contributors
 
-Available under the terms of the Mozilla Public License 2.0, see LICENSE.txt
+Licensed under the term of the Mozilla Public License 2.0, see LICENSE.
 <!-- /license -->
