@@ -1,9 +1,5 @@
 # Unreleased
 
-## Added
-
-## Fixed
-
 ## Changed
 
 - `distance-in-words` now renders approximate weeks; month ranges were adjusted
