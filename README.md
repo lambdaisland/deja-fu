@@ -18,13 +18,13 @@ Lightweight ClojureScript local time/date library
 To use the latest release, add the following to your `deps.edn` ([Clojure CLI](https://clojure.org/guides/deps_and_cli))
 
 ```
-com.lambdaisland/deja-fu {:mvn/version "1.3.51"}
+com.lambdaisland/deja-fu {:mvn/version "1.4.58"}
 ```
 
 or add the following to your `project.clj` ([Leiningen](https://leiningen.org/))
 
 ```
-[com.lambdaisland/deja-fu "1.3.51"]
+[com.lambdaisland/deja-fu "1.4.58"]
 ```
 <!-- /installation -->
 
