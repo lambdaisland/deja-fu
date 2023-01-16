@@ -6,6 +6,8 @@
 
 ## Changed
 
+- `distance-in-words` now renders approximate weeks; month ranges were adjusted
+
 # 1.3.51 (2022-10-18 / 2d9d7f4)
 
 ## Added

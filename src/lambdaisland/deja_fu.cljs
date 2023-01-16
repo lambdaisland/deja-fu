@@ -581,6 +581,7 @@ not inside single quotes."))
   "Word patterns, can be passed in for i18n"
   {:about-x-hours ["about 1 hour" "about {{count}} hours"]
    :about-x-months ["about 1 month" "about {{count}} months"]
+   :about-x-weeks ["about 1 week" "about {{count}} weeks"]
    :about-x-years ["about 1 year" "about {{count}} years"]
    :almost-x-years ["almost 1 year" "almost {{count}} years"]
    :half-a-minute "half a minute"
@@ -631,14 +632,14 @@ not inside single quotes."))
        (<= 45 delta-m 89)        (pattern :about-x-hours 1)
        ;; 90 mins up to 24 hours
        (<= 90 delta-m 1439)      (pattern :about-x-hours delta-h)
-       ;; 24 to 42 hours
-       (<= 1440 delta-m 2519)    (pattern :x-days 1)
-       ;; 30 to 60 days
-       (<= 2520 delta-m 43199)   (pattern :x-days (Math/round (/ delta-m 1440)))
-       ;; 60 to 365 days
-       (<= 43200 delta-m 86399)  (pattern :about-x-months (Math/round (/ delta-m 43200)))
-       ;; 60 days up to 365 days
-       (<= 86400 delta-m 525600) (pattern :x-months (Math/round (/ delta-m 43200)))
+       ;; 1 day to 7 days
+       (<= 1440 delta-m 10079)   (pattern :x-days (Math/round (/ delta-m 1440)))
+       ;; 1 week to 4 weeks
+       (<= 10080 delta-m 40319)  (pattern :about-x-weeks (Math/floor (/ delta-m 10080)))
+       ;; 28 days to 30 days
+       (<= 40320 delta-m 43199)   (pattern :about-x-months (Math/round (/ delta-m 40320)))
+       ;; 30 days to 365 days
+       (<= 43200 delta-m 525600) (pattern :x-months (Math/round (/ delta-m 43200)))
 
        :else
        (let [from-year                      (cond-> (:year from) (< 2 (:month from)) inc)

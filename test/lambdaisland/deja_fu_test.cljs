@@ -135,11 +135,15 @@
          (fu/distance-in-words (fu/local-date-time 2022 1 1 0 0 0)
                                (fu/local-date-time 2022 1 2 2 1 50))))
 
-  (is (= "8 days"
+  (is (= "about 1 week"
          (fu/distance-in-words (fu/local-date-time 2022 1 1 0 0 0)
                                (fu/local-date-time 2022 1 9 0 1 50))))
 
-  (is (= "about 1 month"
+  (is (= "about 2 weeks"
+         (fu/distance-in-words (fu/local-date-time 2022 1 1 0 0 0)
+                               (fu/local-date-time 2022 1 15 0 0 0))))
+
+  (is (= "1 month"
          (fu/distance-in-words (fu/local-date-time 2022 1 1 0 0 0)
                                (fu/local-date-time 2022 2 2 2 1 50))))
 
