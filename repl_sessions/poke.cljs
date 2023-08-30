@@ -9,3 +9,4 @@
 (fu/parse-local-date "2021-W39")
 (hash (fu/parse-local-date-time "2021-10-5T10:11:12"))
 (hash (fu/parse-local-date-time "2021-10-5T10:11:12"))
+(fu/parse-local-time "10:11:12")

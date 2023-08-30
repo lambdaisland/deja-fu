@@ -158,6 +158,10 @@ not inside single quotes."))
   (getSeconds [_] seconds)
   (getMilliseconds [_] (/ nanos 1e6))
 
+  IHash
+  (-hash [this]
+    (hash (bit-xor (epoch-ms this) 2503)))
+
   IEquiv
   (-equiv [this that]
     (and (instance? LocalTime that)
@@ -223,7 +227,7 @@ not inside single quotes."))
     (format obj))
   IHash
   (-hash [this]
-    (hash (epoch-ms this)))
+    (hash (bit-xor (epoch-ms this) 4201)))
   IEquiv
   (-equiv [this that]
     (and (instance? goog.date.Date that)
@@ -334,7 +338,7 @@ not inside single quotes."))
     (format obj))
   IHash
   (-hash [this]
-    (hash (epoch-ms this)))
+    (hash (bit-xor (epoch-ms this) 7919)))
   IEquiv
   (-equiv [this that]
     (and (instance? goog.date.DateTime that)
