@@ -1,10 +1,14 @@
 # Unreleased
 
-## Added
-
 ## Fixed
 
+- Add `IHash` implementation for goog.date.Date and DateTime, so they can be
+  used in sets and as map keys
+  
 ## Changed
+
+- Delegate equality check to underlying goog.date.* implementation, instead of
+  comparing string representations
 
 # 1.4.58 (2023-01-16 / 1446eef)
 

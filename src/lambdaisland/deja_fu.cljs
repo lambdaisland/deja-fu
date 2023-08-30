@@ -221,10 +221,13 @@ not inside single quotes."))
   Object
   (toString [obj]
     (format obj))
+  IHash
+  (-hash [this]
+    (hash (epoch-ms this)))
   IEquiv
   (-equiv [this that]
     (and (instance? goog.date.Date that)
-         (= (str this) (str that))))
+         (.equals ^goog.date.Date this that)))
   IComparable
   (-compare [this that]
     (let [v1 (.valueOf this)
@@ -329,10 +332,13 @@ not inside single quotes."))
   Object
   (toString [obj]
     (format obj))
+  IHash
+  (-hash [this]
+    (hash (epoch-ms this)))
   IEquiv
   (-equiv [this that]
     (and (instance? goog.date.DateTime that)
-         (= (str this) (str that))))
+         (.equals ^goog.date.DateTime this that)))
   IComparable
   (-compare [this that]
     (let [v1 (.valueOf this)
