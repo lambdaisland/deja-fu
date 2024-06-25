@@ -40,7 +40,7 @@
             [goog.string :as gstr]
             [goog.string.format]
             [lambdaisland.data-printers :as data-printers])
-  (:import (goog.date Date DateTime Interval)
+  (:import (goog.date Date DateTime Interval UtcDateTime)
            (goog.i18n DateTimeFormat)))
 
 (def formatter
@@ -429,6 +429,11 @@ not inside single quotes."))
    (local-date-time year month day hours minutes seconds 0))
   ([year month day hours minutes seconds nanos]
    (goog.date.DateTime. year (dec month) day hours minutes seconds (long (/ nanos 1e6)))))
+
+(defn utc-now
+  "Get a local-date-time, representing the current time in UTC."
+  []
+  (UtcDateTime.))
 
 (def date-string-regex
   #"^(\d{4})(?:(?:-?(\d{1,2})(?:-?(\d{1,2}))?)|(?:-?(\d{3}))|(?:-?W(\d{2})(?:-?([1-7]))?))?$")

@@ -2,9 +2,7 @@
 
 ## Added
 
-## Fixed
-
-## Changed
+- Add `utc-now`
 
 # 1.5.62 (2023-08-30 / d81cfb9)
 
