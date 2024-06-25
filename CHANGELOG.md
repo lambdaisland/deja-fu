@@ -1,3 +1,11 @@
+# Unreleased
+
+## Added
+
+## Fixed
+
+## Changed
+
 # 1.6.65 (2024-06-25 / 31f8a88)
 
 ## Added
